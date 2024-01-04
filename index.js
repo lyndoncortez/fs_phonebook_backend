@@ -63,20 +63,20 @@ app.get('/api/persons/:id', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
-    const existingContact = contacts.find(contact => contact.name === body.name);
-    let errorJson = {error: ''}
+    // const existingContact = contacts.find(contact => contact.name === body.name);
+    // let errorJson = {error: ''}
 
-    if(!body.name || !body.number || existingContact) {
-        if (!body.name) {
-            errorJson = { error: 'name is missing' };
-          } else if (!body.number) {
-            errorJson = { error: 'number is missing' };
-          } else if (existingContact) {
-            errorJson = { error: 'name must be unique' };
-          }
+    // if(!body.name || !body.number || existingContact) {
+    //     if (!body.name) {
+    //         errorJson = { error: 'name is missing' };
+    //       } else if (!body.number) {
+    //         errorJson = { error: 'number is missing' };
+    //       } else if (existingContact) {
+    //         errorJson = { error: 'name must be unique' };
+    //       }
 
-        return response.status(400).json(errorJson)
-    }
+    //     return response.status(400).json(errorJson)
+    // }
 
     const contact = new Person({
         name: body.name,
