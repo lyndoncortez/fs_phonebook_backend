@@ -49,7 +49,7 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-  Person.findById({}).then(contacts => {
+  Person.find({}).then(contacts => {
     response.json(contacts)
   })
 })
