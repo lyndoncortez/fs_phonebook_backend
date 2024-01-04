@@ -78,15 +78,14 @@ app.post('/api/persons', (request, response) => {
         return response.status(400).json(errorJson)
     }
 
-    const contact = {
-        id: generateId(),
+    const contact = new Person({
         name: body.name,
         number: body.number
-    }
+    })
 
-    contacts = contacts.concat(contact)
-
-    response.json(contact)
+    contact.save().then(savedContact => {
+      response.json(savedContact)
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
