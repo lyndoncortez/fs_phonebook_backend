@@ -39,10 +39,10 @@ app.get('/api/persons/:id', (request, response) => {
     })
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
-    Person.find({name: body.name})
+    Person.findOne({name: body.name})
       .then(existingContact => {
         if(existingContact) {
           existingContact.number = body.number
@@ -76,7 +76,7 @@ app.post('/api/persons', (request, response) => {
     // }
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then(result => {
       response.status(204).end()
@@ -96,7 +96,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler)
 
-const PORT = process.env.port || 3001
+const PORT = process.env.port
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
