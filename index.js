@@ -23,9 +23,10 @@ morgan.token('data', (req, res) => {
 // }
 
 app.get('/info', (request, response) => {
-    const contacts = Person.find({});
+  Person.find({}).then(contacts => {
     const currentDate = new Date().toString()
     response.send(`<p>Phonebook has info for ${contacts.length} people <br><br>${currentDate} </p>`)
+  })
 })
 
 app.get('/api/persons', (request, response) => {
