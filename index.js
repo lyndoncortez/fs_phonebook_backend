@@ -41,28 +41,27 @@ app.get('/api/persons/:id', (request, response) => {
     })
 })
 
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
+
+  Person.findByIdAndUpdate(request.params.id, { name, number }, { new: true, runValidators: true, context: 'query' })
+    .then(updatedContact => {
+      response.json(updatedContact)
+    })
+    .catch(error => next(error))
+})
+
 app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
-    Person.findOne({name: body.name})
-      .then(existingContact => {
-        if(existingContact) {
-          existingContact.number = body.number
-          existingContact.save().then(updatedContact => {
-            response.json(updatedContact)
-          })
-        } else {
-          const contact = new Person({
-            name: body.name,
-            number: body.number
-          })
-    
-          contact.save()
-            .then(savedContact => {
-              response.json(savedContact)
-            })
-            .catch(error => next(error))
-        }
+    const contact = new Person({
+      name: body.name,
+      number: body.number
+    })
+
+    contact.save()
+      .then(savedContact => {
+        response.json(savedContact)
       })
       .catch(error => next(error))
     // let errorJson = {error: ''}
