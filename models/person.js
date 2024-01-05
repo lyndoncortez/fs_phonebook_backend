@@ -15,8 +15,22 @@ mongoose.connect(url)
   })
 
 const contactSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+      type: String,
+      minLength: [3, 'minimum of 3 characters']
+    },
+    number: {
+      type: String,
+      required: true,
+      validate: {
+        validator: function (value) {
+          // Custom phone number validation
+          const phoneNumberRegex = /^[0-9]{2,3}-[0-9]+$/;
+          return phoneNumberRegex.test(value);
+        },
+        message: 'Invalid phone number format. Use the format XX-XXXXXXX or XXX-XXXXXXX.',
+      },
+    }
 })
 
 contactSchema.set('toJSON', {
